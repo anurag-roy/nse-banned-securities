@@ -16,14 +16,18 @@ const getData = async (dateInIST: Date) => {
   const res = await fetch(
     `https://www1.nseindia.com/archives/fo/sec_ban/fo_secban_${dateParam}.csv`
   );
-  const csv = await res.text();
-  return csv.split('\n').map((row) => {
-    const [id, name] = row.split(',');
-    return {
-      id,
-      name,
-    };
-  });
+  if (res.ok) {
+    const csv = await res.text();
+    return csv.split('\n').map((row) => {
+      const [id, name] = row.split(',');
+      return {
+        id,
+        name,
+      };
+    });
+  } else {
+    return [];
+  }
 };
 
 const handler = async (req: Request) => {
@@ -61,16 +65,25 @@ const handler = async (req: Request) => {
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
-              {data.map((d) => (
-                <tr key={d.id}>
+              {data.length ? (
+                data.map((d) => (
+                  <tr key={d.id}>
+                    <td class="whitespace-nowrap py-4 pl-6 text-sm font-medium text-gray-900">
+                      {d.id}
+                    </td>
+                    <td class="whitespace-nowrap py-4 pl-4 text-sm font-medium text-gray-900">
+                      {d.name}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td></td>
                   <td class="whitespace-nowrap py-4 pl-6 text-sm font-medium text-gray-900">
-                    {d.id}
-                  </td>
-                  <td class="whitespace-nowrap py-4 pl-4 text-sm font-medium text-gray-900">
-                    {d.name}
+                    No data to display
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </main>
