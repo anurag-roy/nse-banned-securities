@@ -66,16 +66,19 @@ const handler = async (req: Request) => {
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
               {data.length ? (
-                data.map((d) => (
-                  <tr key={d.id}>
-                    <td class="whitespace-nowrap py-4 pl-6 text-sm font-medium text-gray-900">
-                      {d.id}
-                    </td>
-                    <td class="whitespace-nowrap py-4 pl-4 text-sm font-medium text-gray-900">
-                      {d.name}
-                    </td>
-                  </tr>
-                ))
+                data.map(
+                  (d) =>
+                    d?.id && (
+                      <tr key={d.id}>
+                        <td class="whitespace-nowrap py-4 pl-6 text-sm font-medium text-gray-900">
+                          {d.id}
+                        </td>
+                        <td class="whitespace-nowrap py-4 pl-4 text-sm font-medium text-gray-900">
+                          {d.name}
+                        </td>
+                      </tr>
+                    )
+                )
               ) : (
                 <tr>
                   <td></td>
