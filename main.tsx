@@ -42,12 +42,12 @@ const handler = async (req: Request) => {
   return html({
     title: heading,
     body: (
-      <body class="p-8">
+      <body class="min-h-screen p-8 flex flex-col">
         <header>
           <h1 class="text-center font-bold font-3xl">{heading}</h1>
         </header>
-        <main class="max-w-md mx-auto overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg mt-8">
-          <table class="min-w-full divide-y divide-gray-300">
+        <main class="grow">
+          <table class="w-full max-w-md mx-auto overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg mt-8 divide-y divide-gray-300">
             <thead class="bg-gray-50">
               <tr>
                 <th
@@ -65,7 +65,7 @@ const handler = async (req: Request) => {
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
-              {data.length ? (
+              {data.length > 1 ? (
                 data.map(
                   (d) =>
                     d?.id && (
