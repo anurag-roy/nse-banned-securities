@@ -6,15 +6,9 @@ import { UnoCSS } from 'https://deno.land/x/htm@0.0.10/plugins.ts';
 // enable UnoCSS
 html.use(UnoCSS());
 
-const getData = async (dateInIST: Date) => {
-  const dateParam = dateInIST
-    .toISOString()
-    .slice(0, 10)
-    .split('-')
-    .reverse()
-    .join('');
+const getData = async () => {
   const res = await fetch(
-    `https://www1.nseindia.com/archives/fo/sec_ban/fo_secban_${dateParam}.csv`
+    `https://nsearchives.nseindia.com/content/fo/fo_secban.csv`
   );
   if (res.ok) {
     const csv = await res.text();
@@ -32,7 +26,7 @@ const getData = async (dateInIST: Date) => {
 
 const handler = async (req: Request) => {
   const dateInIST = new Date(Date.now() + 5.5 * 3600000);
-  const data = await getData(dateInIST);
+  const data = await getData();
   data.shift();
 
   const heading = `NSE Securities banned for trade on ${dateInIST.toLocaleDateString(
