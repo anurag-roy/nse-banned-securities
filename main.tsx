@@ -25,13 +25,8 @@ const getData = async () => {
 };
 
 const handler = async (req: Request) => {
-  const dateInIST = new Date(Date.now() + 5.5 * 3600000);
   const data = await getData();
-  data.shift();
-
-  const heading = `NSE Securities banned for trade on ${dateInIST.toLocaleDateString(
-    'en-IN'
-  )}`;
+  const { id: heading } = data.shift();
 
   return html({
     title: heading,
